@@ -1,7 +1,0 @@
-tensorflow-gpu
-keras
-matplotlib
-scipy
-pillow
-ipython
-jupyter
