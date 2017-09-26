@@ -22,7 +22,7 @@ setup(
     packages=find_packages(PACKAGE_PATH, "test"),
     package_dir={'ctd_model': 'ctd_model'},
     include_package_data=True,
-    install_requires=["tensorflow", "keras", "numpy"],
+    install_requires=[],
     license='GPLv3',
     zip_safe=False,
     keywords='ctd_model',
