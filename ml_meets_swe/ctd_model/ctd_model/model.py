@@ -20,7 +20,7 @@ def predict(img):
         prediction = inference_model.predict(img)
         idx = np.argmax(prediction)
 
-        return labels[int(idx)], prediction[0, idx]
+        return labels[int(idx)], float(prediction[0, idx])
 
 
 def dask_setup(service=None):
