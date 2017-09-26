@@ -11,20 +11,19 @@ MODEL_NAME = "model.h5"
 
 labels = ['airplane','automobile','bird','cat','deer','dog','frog','horse','ship','truck']
 
-def preprocess(img):
-    img = img[np.newaxis, ...].astype(np.int8)
-    return img
-
 
 def predict(img):
+    #preprocess
+    img = img[np.newaxis, ...].astype('float32') / 255
 
     with graph.as_default():
-        pred = inference_model.predict(preprocess(img))
-        idx = np.argmax(pred)
-        return (labels[int(idx)], pred[0, idx])
+        prediction = inference_model.predict(img)
+        idx = np.argmax(prediction)
+
+        return labels[int(idx)], prediction[0, idx]
 
 
-def dask_setup(service):
+def dask_setup(service=None):
 
     print("Loading model")
 
