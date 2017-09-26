@@ -1,12 +1,10 @@
-import json
-
-from flask import Flask
-from flask import request
-
+from flask import Flask, request
 from dask.distributed import Client
 from dask import delayed
-
 import numpy as np
+
+
+client = Client("127.0.0.1:8786")
 
 
 @delayed
@@ -15,23 +13,17 @@ def analyze(img):
     return predict(img)
 
 
-client = Client("127.0.0.1:8786")
-
 app = Flask(__name__)
+
 
 @app.route("/", methods=["POST"])
 def predict_img():
-    payload = request.json
 
-    img = np.array(payload["img"], dtype=np.int8)
+    img = np.array(request.json["img"])
+    prediction = analyze(img)
+    label, probability = client.compute(prediction).result()
 
-    future = client.compute(analyze(img))
-
-    label, prob = future.result()
-    return json.dumps(dict(
-        label=int(label),
-        probability=float(prob)
-        ))
+    return "%s (%4.2f%%)"%(label, float(probability))
 
 
 if __name__ == '__main__':

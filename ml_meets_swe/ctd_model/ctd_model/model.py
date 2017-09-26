@@ -7,8 +7,6 @@ import ctd_model
 graph = tf.get_default_graph()
 inference_model = None
 
-MODEL_NAME = "model.h5"
-
 labels = ['airplane','automobile','bird','cat','deer','dog','frog','horse','ship','truck']
 
 
@@ -25,10 +23,7 @@ def predict(img):
 
 def dask_setup(service=None):
 
-    print("Loading model")
-
-    model_path = resource_filename(ctd_model.__name__, MODEL_NAME)
-    print("Model path '%s'"%model_path)
+    model_path = resource_filename(ctd_model.__name__, "model.h5")
 
     global inference_model
     inference_model = load_model(model_path)
