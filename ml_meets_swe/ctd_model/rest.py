@@ -21,9 +21,8 @@ def predict_img():
 
     img = np.array(request.json["img"])
     prediction = analyze(img)
-    label, probability = client.compute(prediction).result()
 
-    return "%s (%4.2f%%)"%(label, float(probability))
+    return "%s (%4.2f%%)"%(client.compute(prediction).result())
 
 
 if __name__ == '__main__':

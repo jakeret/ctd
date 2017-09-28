@@ -10,6 +10,15 @@ inference_model = None
 labels = ['airplane','automobile','bird','cat','deer','dog','frog','horse','ship','truck']
 
 
+def dask_setup(service=None):
+    model_path = resource_filename(ctd_model.__name__, "model.h5")
+
+    global inference_model
+    inference_model = load_model(model_path)
+
+    print("Model loaded")
+
+
 def predict(img):
     #preprocess
     img = img[np.newaxis, ...].astype('float32') / 255
@@ -19,13 +28,3 @@ def predict(img):
         idx = np.argmax(prediction)
 
         return labels[int(idx)], float(prediction[0, idx])
-
-
-def dask_setup(service=None):
-
-    model_path = resource_filename(ctd_model.__name__, "model.h5")
-
-    global inference_model
-    inference_model = load_model(model_path)
-
-    print("Model loaded")
